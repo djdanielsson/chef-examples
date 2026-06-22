@@ -1,0 +1,21 @@
+{
+  "module_name": "fastapi_tutorial",
+  "items": [
+    {
+      "category": "structure",
+      "source_path": "N/A",
+      "target_path": "ansible/roles/fastapi_tutorial/meta/main.yml",
+      "status": "complete",
+      "description": "Role metadata",
+      "notes": "Created standard meta/main.yml"
+    },
+    {
+      "category": "structure",
+      "source_path": "N/A",
+      "target_path": "ansible/roles/fastapi_tutorial/defaults/main.yml",
+      "status": "missing",
+      "description": "Default variables",
+      "notes": ""
+    }
+  ]
+}
