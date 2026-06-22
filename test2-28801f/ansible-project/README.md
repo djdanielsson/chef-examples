@@ -22,6 +22,19 @@ ansible-playbook run_cache.yml -i inventory/hosts.yml
 
 
 
+### fastapi_tutorial
+
+
+
+
+Run this role:
+
+```bash
+ansible-playbook run_fastapi_tutorial.yml -i inventory/hosts.yml
+```
+
+
+
 ## Prerequisites
 
 ### Collections
