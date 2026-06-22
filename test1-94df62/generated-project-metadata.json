@@ -1,0 +1,20 @@
+[
+  {
+    "name": "cache",
+    "path": "cookbooks/cache",
+    "description": "Provides a simple cache server, installing a caching package such as memcached or redis via a minimal default recipe.",
+    "technology": "Chef"
+  },
+  {
+    "name": "fastapi-tutorial",
+    "path": "cookbooks/fastapi-tutorial",
+    "description": "Sets up a Python FastAPI tutorial application, installing Python, creating a virtual environment, and configuring the FastAPI service.",
+    "technology": "Chef"
+  },
+  {
+    "name": "nginx-multisite",
+    "path": "cookbooks/nginx-multisite",
+    "description": "Configures Nginx to serve multiple sites, managing site\u2011specific server blocks, SSL certificates, and reloading Nginx using templates and custom resources.",
+    "technology": "Chef"
+  }
+]
