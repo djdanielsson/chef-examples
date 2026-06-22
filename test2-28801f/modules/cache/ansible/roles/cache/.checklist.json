@@ -1,0 +1,13 @@
+{
+  "module_name": "cache",
+  "items": [
+    {
+      "category": "structure",
+      "source_path": "N/A",
+      "target_path": "ansible/roles/cache/meta/main.yml",
+      "status": "complete",
+      "description": "N/A \u2192 ansible/roles/cache/meta/main.yml",
+      "notes": "Created standard meta/main.yml"
+    }
+  ]
+}
