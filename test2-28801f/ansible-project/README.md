@@ -35,6 +35,23 @@ ansible-playbook run_fastapi_tutorial.yml -i inventory/hosts.yml
 
 
 
+### nginx_multisite
+
+
+Migrated to modern Ansible
+
+
+**Target platforms:** Ubuntu, EL
+
+
+Run this role:
+
+```bash
+ansible-playbook run_nginx_multisite.yml -i inventory/hosts.yml
+```
+
+
+
 ## Prerequisites
 
 ### Collections
