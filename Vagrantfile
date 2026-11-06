@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/fedora42"
+  config.vm.box = "jtarpley/fedora42_base"
   config.vm.hostname = "chef-nginx"
   
   # Network configuration

@@ -4,17 +4,22 @@ set -e
 
 echo "🚀 Starting Chef provisioning in Vagrant VM..."
 
-# Update system
-apt-get update
+sudo dnf install -y \
+    git \
+    wget \
+    gcc \
+    gcc-c++ \
+    make \
+    cmake \
+    ruby \
+    ruby-devel \
+    libffi-devel \
+    libyaml-devel
 
-# Install build tools for gem compilation
-apt-get install -y build-essential
+sudo gem install chef-cli --no-document
+sudo gem install berkshelf
 
-# Install Chef if not present
-if ! command -v chef-solo &> /dev/null; then
-    echo "📦 Installing Chef..."
-    curl -L https://omnitruck.chef.io/install.sh | bash
-fi
+ENV CHEF_LICENSE=accept-no-persist
 
 # Create chef cache directory
 mkdir -p /var/chef-solo
@@ -22,16 +27,11 @@ mkdir -p /var/chef-solo
 # Change to cookbook directory
 cd /chef-repo
 
-# Install Berkshelf if not present
-if ! command -v berks &> /dev/null && ! [ -f "/opt/chef/embedded/bin/berks" ]; then
-    echo "📦 Installing Berkshelf..."
-    /opt/chef/embedded/bin/gem install berkshelf
-fi
-
 # Download cookbook dependencies using Berkshelf
 echo "📚 Downloading cookbook dependencies..."
-/opt/chef/embedded/bin/berks install
-/opt/chef/embedded/bin/berks vendor cookbooks
+
+/usr/local/bin/berks install
+/usr/local/bin/berks vendor cookbooks
 
 # Accept Chef license and set up
 export CHEF_LICENSE=accept-silent
