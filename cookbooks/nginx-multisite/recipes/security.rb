@@ -52,7 +52,7 @@ if node['security']['ssh']['disable_root']
   execute 'disable root login' do
     command "sed -i 's/^#\\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config"
     not_if "grep -q '^PermitRootLogin no' /etc/ssh/sshd_config"
-    notifies :restart, 'service[ssh]', :delayed
+    notifies :restart, 'service[sshd]', :delayed
   end
 end
 
@@ -60,10 +60,10 @@ if node['security']['ssh']['password_auth'] == false
   execute 'disable password auth' do
     command "sed -i 's/^#\\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config"
     not_if "grep -q '^PasswordAuthentication no' /etc/ssh/sshd_config"
-    notifies :restart, 'service[ssh]', :delayed
+    notifies :restart, 'service[sshd]', :delayed
   end
 end
 
-service 'ssh' do
+service 'sshd' do
   action :nothing
 end

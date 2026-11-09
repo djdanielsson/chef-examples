@@ -1,5 +1,14 @@
-# Install Python 3 and required system packages
-package ['python3', 'python3-pip', 'python3-venv', 'git', 'postgresql', 'postgresql-contrib', 'libpq-dev']
+# Install Python 3 and required system packages using platform package names.
+if platform_family?('fedora', 'rhel')
+  package %w[python3 python3-pip git postgresql-server postgresql-contrib libpq-devel]
+
+  execute 'initialize_postgresql' do
+    command 'postgresql-setup --initdb'
+    creates '/var/lib/pgsql/data/PG_VERSION'
+  end
+else
+  package %w[python3 python3-pip python3-venv git postgresql postgresql-contrib libpq-dev]
+end
 
 # Create application directory
 directory '/opt/fastapi-tutorial' do

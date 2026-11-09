@@ -1,3 +1,13 @@
+# Fedora's nginx package does not create Debian-style site directories.
+%w[/etc/nginx/sites-available /etc/nginx/sites-enabled].each do |path|
+  directory path do
+    owner 'root'
+    group 'root'
+    mode '0755'
+    action :create
+  end
+end
+
 node['nginx']['sites'].each do |site_name, config|
   template "/etc/nginx/sites-available/#{site_name}" do
     source 'site.conf.erb'

@@ -21,8 +21,8 @@ end
 
 node['nginx']['sites'].each do |site_name, config|
   directory config['document_root'] do
-    owner 'www-data'
-    group 'www-data'
+    owner 'nginx'
+    group 'nginx'
     mode '0755'
     recursive true
     action :create
@@ -32,8 +32,8 @@ node['nginx']['sites'].each do |site_name, config|
   
   cookbook_file "#{config['document_root']}/index.html" do
     source "#{site_folder}/index.html"
-    owner 'www-data'
-    group 'www-data'
+    owner 'nginx'
+    group 'nginx'
     mode '0644'
     action :create
   end

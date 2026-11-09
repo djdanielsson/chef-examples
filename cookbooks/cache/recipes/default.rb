@@ -10,6 +10,12 @@ node.default['redisio']['servers'] = [
   }
 ]
 
+# Fedora maps /var/run to /run; use the canonical path for SELinux labeling.
+node.default['redisio']['base_piddir'] = '/run/redis'
+
+# Install/configure Redis first so redisio has created its service account.
+include_recipe 'redisio'
+
 # Create Redis log directory
 directory '/var/log/redis' do
   owner 'redis'
@@ -17,9 +23,6 @@ directory '/var/log/redis' do
   mode '0755'
   recursive true
 end
-
-# Include redis
-include_recipe 'redisio'
 
 # HACK
 ruby_block "fix_redis_config" do
