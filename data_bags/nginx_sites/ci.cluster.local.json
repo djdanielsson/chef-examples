@@ -1,0 +1,5 @@
+{
+  "id": "ci.cluster.local",
+  "document_root": "/var/www/ci.cluster.local",
+  "ssl_enabled": true
+}

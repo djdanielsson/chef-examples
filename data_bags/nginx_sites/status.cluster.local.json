@@ -1,0 +1,5 @@
+{
+  "id": "status.cluster.local",
+  "document_root": "/var/www/status.cluster.local",
+  "ssl_enabled": true
+}

@@ -11,7 +11,7 @@ else
 end
 
 # Create application directory
-directory '/opt/fastapi-tutorial' do
+directory node['fastapi_tutorial']['app_path'] do
   owner 'root'
   group 'root'
   mode '0755'
@@ -19,22 +19,22 @@ directory '/opt/fastapi-tutorial' do
 end
 
 # Clone FastAPI tutorial repository
-git '/opt/fastapi-tutorial' do
-  repository 'https://github.com/dibanez/fastapi_tutorial.git'
-  revision 'main'
+git node['fastapi_tutorial']['app_path'] do
+  repository node['fastapi_tutorial']['repository']
+  revision node['fastapi_tutorial']['revision']
   action :sync
 end
 
 # Create Python virtual environment
 execute 'create_venv' do
-  command 'python3 -m venv /opt/fastapi-tutorial/venv'
-  creates '/opt/fastapi-tutorial/venv'
+  command "python3 -m venv #{node['fastapi_tutorial']['app_path']}/venv"
+  creates "#{node['fastapi_tutorial']['app_path']}/venv"
 end
 
 # Install Python dependencies
 execute 'install_dependencies' do
-  command '/opt/fastapi-tutorial/venv/bin/pip install -r /opt/fastapi-tutorial/requirements.txt'
-  cwd '/opt/fastapi-tutorial'
+  command "#{node['fastapi_tutorial']['app_path']}/venv/bin/pip install -r #{node['fastapi_tutorial']['app_path']}/requirements.txt"
+  cwd node['fastapi_tutorial']['app_path']
   action :run
 end
 
@@ -54,7 +54,7 @@ execute 'create_db_user' do
 end
 
 # Create environment configuration file
-file '/opt/fastapi-tutorial/.env' do
+file "#{node['fastapi_tutorial']['app_path']}/.env" do
   content <<-ENV
 PROJECT_NAME="FastAPI Tutorial"
 API_VERSION=1.0.0
@@ -66,7 +66,11 @@ DATABASE_URL=postgresql://fastapi:fastapi_password@localhost/fastapi_db
 end
 
 # Create systemd service file
-file '/etc/systemd/system/fastapi-tutorial.service' do
+app_path = node['fastapi_tutorial']['app_path']
+service_port = node['fastapi_tutorial']['service_port']
+service_name = 'fastapi-tutorial'
+
+file "/etc/systemd/system/#{service_name}.service" do
   content <<-SERVICE
 [Unit]
 Description=FastAPI Tutorial Service
@@ -75,9 +79,9 @@ After=network.target postgresql.service
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/opt/fastapi-tutorial
-Environment="PATH=/opt/fastapi-tutorial/venv/bin"
-ExecStart=/opt/fastapi-tutorial/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+WorkingDirectory=#{app_path}
+Environment="PATH=#{app_path}/venv/bin"
+ExecStart=#{app_path}/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port #{service_port}
 Restart=always
 
 [Install]
@@ -96,6 +100,6 @@ execute 'systemd_reload' do
 end
 
 # Enable and start the service
-service 'fastapi-tutorial' do
+service service_name do
   action [:enable, :start]
 end

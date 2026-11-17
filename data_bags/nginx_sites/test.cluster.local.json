@@ -1,0 +1,5 @@
+{
+  "id": "test.cluster.local",
+  "document_root": "/var/www/test.cluster.local",
+  "ssl_enabled": true
+}

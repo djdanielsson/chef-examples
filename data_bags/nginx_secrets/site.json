@@ -1,0 +1,9 @@
+{
+  "id": "site",
+  "token": {
+    "encrypted_data": "SR3pkxymoP+vyfUIyMrijm0O3xMBeT6KoHn3j0/eJSE=",
+    "iv": "BOvKGD9bDDD2QNMe3j7hzg==",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

@@ -20,7 +20,11 @@ directory node['nginx']['ssl']['private_key_path'] do
   action :create
 end
 
-node['nginx']['sites'].each do |site_name, config|
+data_bag('nginx_sites').each do |item_name|
+  site = data_bag_item('nginx_sites', item_name)
+  site_name = site['id']
+  config = site
+
   next unless config['ssl_enabled']
   
   cert_file = "#{node['nginx']['ssl']['certificate_path']}/#{site_name}.crt"

@@ -8,7 +8,11 @@
   end
 end
 
-node['nginx']['sites'].each do |site_name, config|
+data_bag('nginx_sites').each do |item_name|
+  site = data_bag_item('nginx_sites', item_name)
+  site_name = site['id']
+  config = site
+
   template "/etc/nginx/sites-available/#{site_name}" do
     source 'site.conf.erb'
     variables(

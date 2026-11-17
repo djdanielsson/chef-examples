@@ -19,7 +19,27 @@ service 'nginx' do
   action [:enable, :start]
 end
 
-node['nginx']['sites'].each do |site_name, config|
+directory '/etc/nginx/secrets' do
+  owner 'root'
+  group 'root'
+  mode '0700'
+end
+
+site_secret = Chef::EncryptedDataBagItem.load('nginx_secrets', 'site')
+
+file '/etc/nginx/secrets/site_token' do
+  content site_secret['token']
+  owner 'root'
+  group 'root'
+  mode '0600'
+  sensitive true
+end
+
+data_bag('nginx_sites').each do |item_name|
+  site = data_bag_item('nginx_sites', item_name)
+  site_name = site['id']
+  config = site
+
   directory config['document_root'] do
     owner 'nginx'
     group 'nginx'
